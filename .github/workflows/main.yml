@@ -26,15 +26,14 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
-     - name: Prepare Website
-       run: |
-        mkdir site
-        cp -r taskflow/* site/
-        mkdir site/weather-dashboard
-        cp -r weather-dashboard/* site/weather-dashboard/
-      
+      - name: Prepare Website
+        run: |
+          mkdir site
+          cp -r taskflow/* site/
+          mkdir -p site/weather-dashboard
+          cp -r weather-dashboard/* site/weather-dashboard/
 
-      - name: Upload TaskFlow
+      - name: Upload Website
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./site
