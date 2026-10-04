@@ -1,4 +1,11 @@
-let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+// Load tasks from localStorage safely
+let tasks = [];
+
+try {
+  tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+} catch {
+  tasks = [];
+}
 
 let currentFilter = "all";
 
@@ -10,7 +17,7 @@ const emptyMessage = document.getElementById("emptyMessage");
 const clearCompleted = document.getElementById("clearCompleted");
 const filters = document.querySelector(".filters");
 
-// Save tasks to localStorage
+// Save tasks
 function saveTasks() {
   localStorage.setItem("tasks", JSON.stringify(tasks));
 }
@@ -22,76 +29,74 @@ function displayTasks() {
   let filteredTasks = tasks;
 
   if (currentFilter === "active") {
-    filteredTasks = tasks.filter((task) => !task.completed);
+    filteredTasks = tasks.filter(task => !task.completed);
   }
 
   if (currentFilter === "completed") {
-    filteredTasks = tasks.filter((task) => task.completed);
+    filteredTasks = tasks.filter(task => task.completed);
   }
 
-  filteredTasks.forEach((task) => {
+  filteredTasks.forEach(task => {
     const li = document.createElement("li");
     li.className = "task-item";
+    li.dataset.id = task.id;
 
     if (task.completed) {
       li.classList.add("completed");
     }
 
-    li.dataset.id = task.id;
+    li.innerHTML = `
+      <input type="checkbox"
+             class="task-checkbox"
+             data-action="toggle"
+             ${task.completed ? "checked" : ""}>
 
-    const checkbox = document.createElement("input");
+      <span class="task-text">${task.text}</span>
 
-    checkbox.type = "checkbox";
-    checkbox.className = "task-checkbox";
-    checkbox.dataset.action = "toggle";
-
-    checkbox.checked = task.completed;
-
-    const text = document.createElement("span");
-
-    text.className = "task-text";
-    text.textContent = task.text;
-
-    const actions = document.createElement("div");
-
-    actions.className = "task-actions";
-
-    const editButton = document.createElement("button");
-
-    editButton.textContent = "Edit";
-    editButton.type = "button";
-    editButton.dataset.action = "edit";
-
-    const deleteButton = document.createElement("button");
-
-    deleteButton.textContent = "Delete";
-    deleteButton.type = "button";
-    deleteButton.dataset.action = "delete";
-
-    actions.appendChild(editButton);
-    actions.appendChild(deleteButton);
-
-    li.appendChild(checkbox);
-    li.appendChild(text);
-    li.appendChild(actions);
+      <div class="task-actions">
+        <button type="button" data-action="edit">Edit</button>
+        <button type="button" data-action="delete">Delete</button>
+      </div>
+    `;
 
     taskList.appendChild(li);
   });
 
   updateStats();
+  updateEmptyMessage(filteredTasks);
+}
 
-  if (filteredTasks.length === 0) {
-    emptyMessage.style.display = "block";
+// Update task count
+function updateStats() {
+  const count = tasks.length;
+  const active = tasks.filter(task => !task.completed).length;
+  const completed = tasks.filter(task => task.completed).length;
+
+  if (currentFilter === "active") {
+    taskCount.textContent = `${active} active ${active === 1 ? "task" : "tasks"}`;
+  } else if (currentFilter === "completed") {
+    taskCount.textContent = `${completed} completed ${completed === 1 ? "task" : "tasks"}`;
   } else {
-    emptyMessage.style.display = "none";
+    taskCount.textContent = `${count} ${count === 1 ? "task" : "tasks"}`;
   }
 }
 
-// Update task statistics
-function updateStats() {
-  const activeTasks = tasks.filter((task) => !task.completed).length;
+// Empty messages
+function updateEmptyMessage(filteredTasks) {
+  if (filteredTasks.length > 0) {
+    emptyMessage.style.display = "none";
+    return;
+  }
 
-  taskCount.textContent = `${activeTasks} active ${activeTasks === 1 ? "task" : "tasks"}`;
+  emptyMessage.style.display = "block";
+
+  if (currentFilter === "active") {
+    emptyMessage.textContent = "No active tasks.";
+  } else if (currentFilter === "completed") {
+    emptyMessage.textContent = "No completed tasks.";
+  } else {
+    emptyMessage.textContent = "No tasks yet. Add your first task!";
+  }
 }
 
 // CREATE
@@ -100,20 +105,15 @@ taskForm.addEventListener("submit", function (event) {
 
   const text = taskInput.value.trim();
 
-  if (text === "") {
-    return;
-  }
+  if (!text) return;
 
-  const newTask = {
+  tasks.push({
     id: Date.now(),
     text: text,
-    completed: false,
-  };
-
-  tasks.push(newTask);
+    completed: false
+  });
 
   saveTasks();
-
   displayTasks();
 
   taskInput.value = "";
@@ -121,67 +121,49 @@ taskForm.addEventListener("submit", function (event) {
 });
 
 // UPDATE + DELETE + COMPLETE
-// Event delegation
 taskList.addEventListener("click", function (event) {
   const button = event.target.closest("button");
 
-  if (!button) {
-    return;
-  }
+  if (!button) return;
 
   const taskItem = button.closest(".task-item");
-
   const taskId = Number(taskItem.dataset.id);
+  const task = tasks.find(task => task.id === taskId);
 
-  const task = tasks.find((task) => task.id === taskId);
-
-  if (!task) {
-    return;
-  }
+  if (!task) return;
 
   // UPDATE
   if (button.dataset.action === "edit") {
     const newText = prompt("Edit your task:", task.text);
 
-    if (newText !== null && newText.trim() !== "") {
+    if (newText !== null && newText.trim()) {
       task.text = newText.trim();
-
       saveTasks();
-
       displayTasks();
     }
   }
 
   // DELETE
   if (button.dataset.action === "delete") {
-    tasks = tasks.filter((task) => task.id !== taskId);
-
+    tasks = tasks.filter(task => task.id !== taskId);
     saveTasks();
-
     displayTasks();
   }
 });
 
-// Mark task completed
+// Mark completed
 taskList.addEventListener("change", function (event) {
-  if (!event.target.classList.contains("task-checkbox")) {
-    return;
-  }
+  if (!event.target.classList.contains("task-checkbox")) return;
 
   const taskItem = event.target.closest(".task-item");
-
   const taskId = Number(taskItem.dataset.id);
+  const task = tasks.find(task => task.id === taskId);
 
-  const task = tasks.find((task) => task.id === taskId);
-
-  if (!task) {
-    return;
-  }
+  if (!task) return;
 
   task.completed = event.target.checked;
 
   saveTasks();
-
   displayTasks();
 });
 
@@ -189,13 +171,11 @@ taskList.addEventListener("change", function (event) {
 filters.addEventListener("click", function (event) {
   const button = event.target.closest(".filter");
 
-  if (!button) {
-    return;
-  }
+  if (!button) return;
 
   currentFilter = button.dataset.filter;
 
-  document.querySelectorAll(".filter").forEach((filter) => {
+  document.querySelectorAll(".filter").forEach(filter => {
     filter.classList.remove("active");
   });
 
@@ -204,14 +184,13 @@ filters.addEventListener("click", function (event) {
   displayTasks();
 });
 
-// Clear completed tasks
+// Clear completed
 clearCompleted.addEventListener("click", function () {
-  tasks = tasks.filter((task) => !task.completed);
+  tasks = tasks.filter(task => !task.completed);
 
   saveTasks();
-
   displayTasks();
 });
 
-// Load tasks when page opens
+// Load tasks
 displayTasks();
