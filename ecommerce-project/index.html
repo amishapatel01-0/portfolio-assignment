@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StyleCart - Online Store</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <h2>StyleCart</h2>
+
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#products">Products</a>
+            <a href="#about">About</a>
+            <a href="#cart">Cart 🛒 <span id="cart-count">0</span></a>
+        </div>
+    </nav>
+
+    <!-- Home Section -->
+    <section id="home" class="hero">
+        <h1>Welcome to StyleCart</h1>
+        <p>Find your style. Shop your favorites.</p>
+        <button onclick="showProducts()">Shop Now</button>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products">
+        <h2>Our Products</h2>
+
+        <div class="product-container">
+
+            <div class="product-card">
+                <div class="product-image">👕</div>
+                <h3>Classic T-Shirt</h3>
+                <p>₹499</p>
+                <button onclick="addToCart()">Add to Cart</button>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">👖</div>
+                <h3>Blue Jeans</h3>
+                <p>₹999</p>
+                <button onclick="addToCart()">Add to Cart</button>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">👟</div>
+                <h3>Running Shoes</h3>
+                <p>₹1499</p>
+                <button onclick="addToCart()">Add to Cart</button>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">🧥</div>
+                <h3>Denim Jacket</h3>
+                <p>₹1299</p>
+                <button onclick="addToCart()">Add to Cart</button>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <h2>About StyleCart</h2>
+        <p>
+            StyleCart is a simple online shopping platform
+            created as a full-stack web development project.
+        </p>
+    </section>
+
+    <!-- Cart Section -->
+    <section id="cart">
+        <h2>Your Cart</h2>
+        <p>Items in cart: <span id="cart-items">0</span></p>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 StyleCart. All Rights Reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
