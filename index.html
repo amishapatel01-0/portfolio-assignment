@@ -2,204 +2,84 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="style.css">
-
-    <title>Amisha Patel | Web Developer</title>
-
-    <meta
-        name="description"
-        content="Portfolio of Amisha Patel, Web Developer interested in responsive and user-friendly websites."
-    >
-
-    <link
-        rel="canonical"
-        href="https://johndoe.com/"
-    >
-
-    <!-- Open Graph -->
-    <meta property="og:title" content="Amisha Patel Portfolio">
-    <meta property="og:description" content="Web Developer Portfolio">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://johndoe.com/">
-
-    <!-- Structured Data -->
-    <script type="application/ld+json">
-    {
-      "@context":"https://schema.org",
-      "@type":"Person",
-      "name":"Amisha Patel",
-      "jobTitle":"Web Developer",
-      "url":"https://johndoe.com"
-    }
-    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StyleCart - Online Store</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <!-- Skip Link -->
-    <a href="#main-content" class="skip-link">
-        Skip to main content
-    </a>
+    <nav>
+        <h2>StyleCart</h2>
 
-    <header>
-        <div class="container">
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#products">Products</a>
+            <a href="#about">About</a>
+            <a href="#cart">Cart 🛒 <span id="cart-count">0</span></a>
+        </div>
+    </nav>
 
-            <a href="/" aria-label="Home">
-                Amisha Patel
-            </a>
+    <section id="home" class="hero">
+        <h1>Welcome to StyleCart</h1>
+        <p>Find your style. Shop your favorites.</p>
+        <button onclick="showProducts()">Shop Now</button>
+    </section>
 
-            <nav aria-label="Primary Navigation">
-                <ul>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#projects">Projects</a></li>
-                    <li><a href="#skills">Skills</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-            </nav>
+    <section id="products">
+        <h2>Our Products</h2>
+
+        <div class="product-container">
+
+            <div class="product-card">
+                <div class="product-image">👕</div>
+                <h3>Classic T-Shirt</h3>
+                <p>₹499</p>
+                <button onclick="addToCart()">Add to Cart</button>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">👖</div>
+                <h3>Blue Jeans</h3>
+                <p>₹999</p>
+                <button onclick="addToCart()">Add to Cart</button>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">👟</div>
+                <h3>Running Shoes</h3>
+                <p>₹1499</p>
+                <button onclick="addToCart()">Add to Cart</button>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">🧥</div>
+                <h3>Denim Jacket</h3>
+                <p>₹1299</p>
+                <button onclick="addToCart()">Add to Cart</button>
+            </div>
 
         </div>
-    </header>
+    </section>
 
-    <main id="main-content">
+    <section id="about">
+        <h2>About StyleCart</h2>
+        <p>
+            StyleCart is a simple online shopping platform
+            created as a full-stack web development project.
+        </p>
+    </section>
 
-        <!-- Hero -->
-        <section aria-labelledby="hero-title">
-            <h1 id="hero-title">
-                Web Developer
-            </h1>
-
-            <p>
-                Building accessible, fast, and scalable web applications.
-            </p>
-
-            <a href="#projects">
-                View My Work
-            </a>
-        </section>
-
-        <!-- About -->
-        <section id="about" aria-labelledby="about-title">
-            <h2 id="about-title">About Me</h2>
-
-            <img
-                src="profile.jpg"
-                alt="Portrait of Amisha Patel"
-                width="300"
-                height="300"
-            >
-
-            <p>
-               <p>
-    I am a web development student who enjoys creating
-    simple, responsive and user-friendly websites. I am
-    interested in learning new technologies and improving
-    my skills by building practical projects.
-</p>
-            </p>
-        </section>
-
-        <!-- Projects -->
-        <section id="projects" aria-labelledby="projects-title">
-            <h2 id="projects-title">Projects</h2>
-
-            <article>
-               <h3>Responsive Portfolio Website</h3>
-<p>
-    A responsive personal portfolio website built using
-    HTML and CSS with a clean and user-friendly design.
-</p>
-                <a
-                    href="https://example.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="View Portfolio Website project"
-                >
-                    View Project
-                </a>
-            </article>
-
-            <article>
-               <h3>Weather Application</h3>
-<p>
-    A simple weather application that displays weather
-    information in a clear and user-friendly way.
-</p>
-
-                <a
-                    href="https://example.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="View E-Commerce Platform project"
-                >
-                    View Project
-                </a>
-            </article>
-        </section>
-
-        <!-- Skills -->
-        <section id="skills" aria-labelledby="skills-title">
-            <h2 id="skills-title">Skills</h2>
-
-           <ul>
-    <li>HTML</li>
-    <li>CSS</li>
-    <li>JavaScript</li>
-    <li>C++</li>
-    <li>Java</li>
-    <li>Git & GitHub</li>
-</ul>
-        </section>
-
-        <!-- Contact -->
-        <section id="contact" aria-labelledby="contact-title">
-            <h2 id="contact-title">Contact</h2>
-
-            <form>
-                <div>
-                    <label for="name">Name</label>
-                    <input
-                        id="name"
-                        name="name"
-                        type="text"
-                        required
-                    >
-                </div>
-
-                <div>
-                    <label for="email">Email</label>
-                    <input
-                        id="email"
-                        name="email"
-                        type="email"
-                        required
-                    >
-                </div>
-
-                <div>
-                    <label for="message">Message</label>
-                    <textarea
-                        id="message"
-                        name="message"
-                        required
-                    ></textarea>
-                </div>
-
-                <button type="submit">
-                    Send Message
-                </button>
-            </form>
-        </section>
-
-    </main>
+    <section id="cart">
+        <h2>Your Cart</h2>
+        <p>Items in cart: <span id="cart-items">0</span></p>
+    </section>
 
     <footer>
-        <p>
-            © 2026 Amisha Patel. All rights reserved.
-        </p>
+        <p>© 2026 StyleCart. All Rights Reserved.</p>
     </footer>
+
+    <script src="script.js"></script>
 
 </body>
 </html>
